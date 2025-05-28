@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panahon Ngayon</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-50 min-h-screen flex flex-col items-center justify-center px-4">
+  <h1 class="text-3xl font-bold mb-6">🌦️ Weather App</h1>
+
+  <form id="weatherForm" class="flex gap-2 mb-6">
+    <input id="cityInput" type="text" placeholder="Ilagay ang lungsod" class="px-4 py-2 border rounded" required/>
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Tingnan</button>
+  </form>
+
+  <div id="result" class="text-center"></div>
+
+  <script>
+    const form = document.getElementById("weatherForm");
+    const resultDiv = document.getElementById("result");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const city = document.getElementById("cityInput").value.trim();
+      if (!city) return;
+
+      resultDiv.innerHTML = "⏳ Kinukuha ang panahon...";
+
+      try {
+        const response = await fetch(`/api/weather?city=${encodeURIComponent(city)}`);
+        const data = await response.json();
+
+        if (data.error) {
+          resultDiv.innerHTML = `<p class="text-red-600 mt-4">❌ ${data.error}</p>`;
+        } else {
+          resultDiv.innerHTML = `
+            <div class="bg-white p-6 rounded shadow">
+              <h2 class="text-xl font-semibold mb-2">${data.city}</h2>
+              <p>🌡️ Temperatura: ${data.temperature}°C</p>
+              <p>💨 Hangin: ${data.wind_speed} km/h</p>
+              <p>💧 Humidity: ${data.humidity}%</p>
+            </div>
+          `;
+        }
+      } catch (err) {
+        resultDiv.innerHTML = `<p class="text-red-600 mt-4">❌ Error sa pagkuha ng data.</p>`;
+      }
+    });
+  </script>
+</body>
+</html>
