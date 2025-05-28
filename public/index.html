@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Panahon Ngayon</title>
+  <title>Weather Details</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-blue-50 min-h-screen flex flex-col items-center justify-center px-4">
-  <h1 class="text-3xl font-bold mb-6">🌦️ Weather App</h1>
+  <h1 class="text-3xl font-bold mb-6">🌦️ Weather Details</h1>
 
   <form id="weatherForm" class="flex gap-2 mb-6">
     <input
@@ -25,7 +25,7 @@
     </button>
   </form>
 
-  <div id="result" class="text-center"></div>
+  <div id="result" class="text-center max-w-lg w-full"></div>
 
   <script>
     const form = document.getElementById("weatherForm");
@@ -48,21 +48,21 @@
         }
 
         resultDiv.innerHTML = `
-          <div class="bg-white p-6 rounded shadow max-w-md mx-auto text-left">
-            <h2 class="text-xl font-semibold mb-2">📍 Lungsod: ${data.city}</h2>
-            <p>🕒 ${data.issuedAt}</p>
-            <p class="mt-2 text-gray-700 italic">📖 ${data.synopsis}</p>
+          <div class="bg-white p-6 rounded shadow text-left">
+            <h2 class="text-xl font-semibold mb-2">📍 Lungsod: ${city}</h2>
+            <p class="mb-4 text-gray-700 italic">📖 <strong>Synopsis:</strong> ${data.synopsis}</p>
+            <p class="mb-4">🕒 <strong>Issued At:</strong> ${data.issuedAt}</p>
 
-            <div class="mt-4">
-              <h3 class="font-semibold">🌡️ Temperatura</h3>
-              <p>🔺 Max: ${data.temperature_max}</p>
-              <p>🔻 Min: ${data.temperature_min}</p>
+            <div>
+              <h3 class="font-semibold mb-1">🌡️ Temperatura</h3>
+              <p>🔺 Max: ${data.temperature_max} <small>(oras: ${data.temperature_max_time || 'N/A'})</small></p>
+              <p>🔻 Min: ${data.temperature_min} <small>(oras: ${data.temperature_min_time || 'N/A'})</small></p>
             </div>
 
             <div class="mt-4">
-              <h3 class="font-semibold">💧 Humidity</h3>
-              <p>🔺 Max: ${data.humidity_max}</p>
-              <p>🔻 Min: ${data.humidity_min}</p>
+              <h3 class="font-semibold mb-1">💧 Humidity</h3>
+              <p>🔺 Max: ${data.humidity_max} <small>(oras: ${data.humidity_max_time || 'N/A'})</small></p>
+              <p>🔻 Min: ${data.humidity_min} <small>(oras: ${data.humidity_min_time || 'N/A'})</small></p>
             </div>
           </div>
         `;
