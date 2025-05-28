@@ -11,15 +11,10 @@ module.exports = async (req, res) => {
     const response = await axios.get(`https://jonell01-ccprojectsapihshs.hf.space/api/weather?city=${encodeURIComponent(city)}`);
     const data = response.data;
 
-    // Simplified data para hindi na object sa frontend
-    res.status(200).json({
-      city: data.city,
-      temperature: data.temperature?.value || null,
-      humidity: data.humidity?.value || null,
-      wind_speed: data.wind_speed || null
-    });
+    console.log("📦 RAW API RESPONSE:", data); // Debugging
+    res.status(200).json(data); // Padala natin buong raw response para makita sa browser
   } catch (err) {
-    console.error(err.message);
+    console.error("❌ API ERROR:", err.message);
     res.status(500).json({ error: "Hindi nakuha ang data. Subukan muli." });
   }
 };
