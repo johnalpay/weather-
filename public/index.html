@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tl">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -13,7 +13,7 @@
     <input
       id="cityInput"
       type="text"
-      placeholder="Ilagay ang lungsod"
+      placeholder="Enter city"
       class="px-4 py-2 border rounded"
       required
     />
@@ -21,7 +21,7 @@
       type="submit"
       class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
     >
-      Tingnan
+      Check
     </button>
   </form>
 
@@ -36,7 +36,7 @@
       const city = document.getElementById("cityInput").value.trim();
       if (!city) return;
 
-      resultDiv.innerHTML = "⏳ Kinukuha ang panahon...";
+      resultDiv.innerHTML = "⏳ Fetching weather...";
 
       try {
         const response = await fetch(`/api/weather?city=${encodeURIComponent(city)}`);
@@ -49,26 +49,26 @@
 
         resultDiv.innerHTML = `
           <div class="bg-white p-6 rounded shadow text-left">
-            <h2 class="text-xl font-semibold mb-2">📍 Lungsod: ${city}</h2>
+            <h2 class="text-xl font-semibold mb-2">📍 City: ${city}</h2>
             <p class="mb-4 text-gray-700 italic">📖 <strong>Synopsis:</strong> ${data.synopsis}</p>
             <p class="mb-4">🕒 <strong>Issued At:</strong> ${data.issuedAt}</p>
 
             <div>
-              <h3 class="font-semibold mb-1">🌡️ Temperatura</h3>
-              <p>🔺 Max: ${data.temperature_max} <small>(oras: ${data.temperature_max_time || 'N/A'})</small></p>
-              <p>🔻 Min: ${data.temperature_min} <small>(oras: ${data.temperature_min_time || 'N/A'})</small></p>
+              <h3 class="font-semibold mb-1">🌡️ Temperature</h3>
+              <p>🔺 Max: ${data.temperature_max} <small>(time: ${data.temperature_max_time || 'N/A'})</small></p>
+              <p>🔻 Min: ${data.temperature_min} <small>(time: ${data.temperature_min_time || 'N/A'})</small></p>
             </div>
 
             <div class="mt-4">
               <h3 class="font-semibold mb-1">💧 Humidity</h3>
-              <p>🔺 Max: ${data.humidity_max} <small>(oras: ${data.humidity_max_time || 'N/A'})</small></p>
-              <p>🔻 Min: ${data.humidity_min} <small>(oras: ${data.humidity_min_time || 'N/A'})</small></p>
+              <p>🔺 Max: ${data.humidity_max} <small>(time: ${data.humidity_max_time || 'N/A'})</small></p>
+              <p>🔻 Min: ${data.humidity_min} <small>(time: ${data.humidity_min_time || 'N/A'})</small></p>
             </div>
           </div>
         `;
       } catch (err) {
         console.error(err);
-        resultDiv.innerHTML = `<p class="text-red-600 mt-4">❌ Error sa pagkuha ng data.</p>`;
+        resultDiv.innerHTML = `<p class="text-red-600 mt-4">❌ Error fetching data.</p>`;
       }
     });
   </script>
