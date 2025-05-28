@@ -2,7 +2,7 @@
 <html lang="tl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Panahon Ngayon</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -10,11 +10,22 @@
   <h1 class="text-3xl font-bold mb-6">🌦️ Weather App</h1>
 
   <form id="weatherForm" class="flex gap-2 mb-6">
-    <input id="cityInput" type="text" placeholder="Ilagay ang lungsod" class="px-4 py-2 border rounded" required/>
-    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Tingnan</button>
+    <input
+      id="cityInput"
+      type="text"
+      placeholder="Ilagay ang lungsod"
+      class="px-4 py-2 border rounded"
+      required
+    />
+    <button
+      type="submit"
+      class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+    >
+      Tingnan
+    </button>
   </form>
 
-  <div id="result" class="text-center whitespace-pre-wrap"></div>
+  <div id="result" class="text-center"></div>
 
   <script>
     const form = document.getElementById("weatherForm");
@@ -31,8 +42,30 @@
         const response = await fetch(`/api/weather?city=${encodeURIComponent(city)}`);
         const data = await response.json();
 
-        // TEMP: ipakita muna ang buong JSON para makita structure
-        resultDiv.innerHTML = `<pre class="bg-white p-4 rounded shadow text-left text-sm">${JSON.stringify(data, null, 2)}</pre>`;
+        if (data.error) {
+          resultDiv.innerHTML = `<p class="text-red-600">${data.error}</p>`;
+          return;
+        }
+
+        resultDiv.innerHTML = `
+          <div class="bg-white p-6 rounded shadow max-w-md mx-auto text-left">
+            <h2 class="text-xl font-semibold mb-2">📍 Lungsod: ${data.city}</h2>
+            <p>🕒 ${data.issuedAt}</p>
+            <p class="mt-2 text-gray-700 italic">📖 ${data.synopsis}</p>
+
+            <div class="mt-4">
+              <h3 class="font-semibold">🌡️ Temperatura</h3>
+              <p>🔺 Max: ${data.temperature_max}</p>
+              <p>🔻 Min: ${data.temperature_min}</p>
+            </div>
+
+            <div class="mt-4">
+              <h3 class="font-semibold">💧 Humidity</h3>
+              <p>🔺 Max: ${data.humidity_max}</p>
+              <p>🔻 Min: ${data.humidity_min}</p>
+            </div>
+          </div>
+        `;
       } catch (err) {
         console.error(err);
         resultDiv.innerHTML = `<p class="text-red-600 mt-4">❌ Error sa pagkuha ng data.</p>`;
