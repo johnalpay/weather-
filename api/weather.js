@@ -4,14 +4,13 @@ module.exports = async (req, res) => {
   const { city } = req.query;
 
   if (!city) {
-    return res.status(400).json({ error: "Walang lungsod na ibinigay." });
+    return res.status(400).json({ error: "No city provided." });
   }
 
   try {
     const response = await axios.get(`https://jonell01-ccprojectsapihshs.hf.space/api/weather?city=${encodeURIComponent(city)}`);
     const data = response.data;
 
-    // I-extract pati oras ng max/min para sa temperatura at humidity
     const result = {
       city: city,
       issuedAt: data.issuedAt,
@@ -28,7 +27,7 @@ module.exports = async (req, res) => {
 
     res.status(200).json(result);
   } catch (err) {
-    console.error("❌ API ERROR:", err.message);
-    res.status(500).json({ error: "Hindi nakuha ang data. Subukan muli." });
+    console.error("API ERROR:", err.message);
+    res.status(500).json({ error: "Failed to fetch data. Please try again." });
   }
 };
