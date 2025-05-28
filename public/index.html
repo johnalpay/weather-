@@ -37,13 +37,14 @@
           resultDiv.innerHTML = `
             <div class="bg-white p-6 rounded shadow">
               <h2 class="text-xl font-semibold mb-2">${data.city}</h2>
-              <p>🌡️ Temperatura: ${data.temperature}°C</p>
-              <p>💨 Hangin: ${data.wind_speed} km/h</p>
-              <p>💧 Humidity: ${data.humidity}%</p>
+              <p>🌡️ Temperatura: ${data.temperature ?? "N/A"}°C</p>
+              <p>💨 Hangin: ${data.wind_speed ?? "N/A"} km/h</p>
+              <p>💧 Humidity: ${data.humidity ?? "N/A"}%</p>
             </div>
           `;
         }
       } catch (err) {
+        console.error(err);
         resultDiv.innerHTML = `<p class="text-red-600 mt-4">❌ Error sa pagkuha ng data.</p>`;
       }
     });
