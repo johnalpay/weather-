@@ -1,0 +1,8 @@
+{
+  "name": "weather-app",
+  "version": "1.0.0",
+  "main": "api/weather.js",
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}
